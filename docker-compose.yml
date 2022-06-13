@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  tracker:
+    image: ${DOCKER_REGISTRY-}tracker
+    build:
+      context: .
+      dockerfile: Tracker/Dockerfile
+    environment:
+      - "POSTGRES_USER=azerpas"
+      - "POSTGRES_PASSWORD=123456"
+      - "POSTGRES_DB=tracker" 
+    depends_on:
+      - postgres
+
+  postgres:
+    image: "postgres"
+    environment:
+      - "POSTGRES_USER=azerpas"
+      - "POSTGRES_PASSWORD=123456"
+      - "POSTGRES_DB=tracker"
+    volumes:
+      - tracker-postgres:/var/lib/postgresql/data/ 
+    depends_on: 
+      - migrations
+  
+  migrations:
+    build: 
+      context: .
+      dockerfile: Tracker/Migrations.Dockerfile
+    environment:
+      - "POSTGRES_USER=azerpas"
+      - "POSTGRES_PASSWORD=123456"
+      - "POSTGRES_DB=tracker"
+volumes:
+  tracker-postgres:
