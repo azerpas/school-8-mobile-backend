@@ -8,11 +8,5 @@ namespace Tracker.Models
         public DbSet<Match> Matches { get; set; }
 
         public PgsqlContext(DbContextOptions<PgsqlContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Player>();
-            modelBuilder.Entity<Match>();
-        }
     }
 }
